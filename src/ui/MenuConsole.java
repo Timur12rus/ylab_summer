@@ -70,7 +70,7 @@ public class MenuConsole {
                 case DEBIT:
                     if (user.getBalance() - transaction.getAmount() >= 0) {
                         user.setBalance(user.getBalance() - transaction.getAmount());
-                        historyTransactionList.add("Id транзакции: " + transaction.getId() + "/сумма: " + transaction.getAmount() + "/тип операции: дебет");
+                        historyTransactionList.add("Id транзакции: " + transaction.getId() + "|сумма: " + transaction.getAmount() + "|тип операции: дебет");
                         historyUserActions.add("Снятие");
                     } else {
                         System.out.println("Не достаточно средств на счёте!");
@@ -78,7 +78,7 @@ public class MenuConsole {
                     break;
                 case CREDIT:
                     user.setBalance(user.getBalance() + transaction.getAmount());
-                    historyTransactionList.add("Id транзакции: " + transaction.getId() + "/сумма: " + transaction.getAmount() + "/тип операции: кредит");
+                    historyTransactionList.add("Id транзакции: " + transaction.getId() + "|сумма: " + transaction.getAmount() + "|тип операции: кредит");
                     historyUserActions.add("Пополнение");
             }
         }
@@ -94,6 +94,15 @@ public class MenuConsole {
         transactionList.add(new Transaction(2, 55, Transaction.TypeOfTransaction.DEBIT));
         transactionList.add(new Transaction(3, 25, Transaction.TypeOfTransaction.CREDIT));
         return transactionList;
+    }
+
+    private boolean checkUniqueIdTransaction(int transactionId) {
+        for (Transaction transaction : transactionList) {
+            if (transaction.getId() == transactionId) {
+                System.out.println("Ошибка! Id транзакции не уникальный!");
+            }
+        }
+        return false;
     }
 
     // создает пользователя для регистрации
