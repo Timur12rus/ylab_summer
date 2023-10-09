@@ -1,5 +1,7 @@
 package ui;
 
+import model.User;
+
 import java.util.Scanner;
 
 public class Console {
@@ -12,7 +14,7 @@ public class Console {
             int num = scanner.nextInt();
             switch (num) {
                 case 1:
-                    startRegistration();
+                    registerUser();
                     break;
                 case 2:
                     authorizeUser();
@@ -21,25 +23,51 @@ public class Console {
         }
     }
 
-    public void startRegistration() {
-        String name;
-        String password;
-        System.out.println("Регистрация пользователя:\nВведите имя пользователя: ");
+    // TODO refactorMethods
+
+    public User registerUser() {
+        String login = null;
+        String password = null;
+        float balance = 0;
+        System.out.println("Регистрация пользователя:\nВведите логин пользователя: ");
         if (scanner.hasNextLine()) {
-            name = scanner.nextLine();
+            login = scanner.nextLine();
         }
 
         System.out.println("Введите пароль: ");
         if (scanner.hasNextLine()) {
             password = scanner.nextLine();
         }
+
+        System.out.println("Введите баланс на счёте: ");
+        if (scanner.hasNextFloat()) {
+            balance = scanner.nextFloat();
+        }
+        return new User(login, password, balance);
     }
 
-    public void authorizeUser() {
-        System.out.println("Введите имя пользователя: ");
+    public User authorizeUser() {
+        String login = null;
+        String password = null;
+        float balance = 0;
+        User user = null;
+
+        System.out.println("Введите логин пользователя: ");
         if (scanner.hasNextLine()) {
-            String userName = scanner.nextLine();
-            //TODO authorize user by username
+            login = scanner.nextLine();
+        }
+
+        System.out.println("Введите пароль: ");
+        if (scanner.hasNextLine()) {
+            password = scanner.nextLine();
+        }
+
+        user = new User(login, password);
+
+        for (User u : userList) {
+            if (user.equals(u)) {
+
+            }
         }
     }
 }
