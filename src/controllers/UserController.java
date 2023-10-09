@@ -12,8 +12,6 @@ public class UserController {
 
     private Map<String, User> userMap = new HashMap();
 
-
-
     private User currentUser;
 
     // метод для регистрации пользователя

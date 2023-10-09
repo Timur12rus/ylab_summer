@@ -1,7 +1,7 @@
 package model;
 
 public class Transaction {
-    private int id;
+    private String id;
 
     public TypeOfTransaction getTypeOfTransaction() {
         return typeOfTransaction;
@@ -11,13 +11,13 @@ public class Transaction {
 
     private TypeOfTransaction typeOfTransaction;
 
-    public Transaction(int id, float amount, TypeOfTransaction typeOfTransaction) {
+    public Transaction(String id, float amount, TypeOfTransaction typeOfTransaction) {
         this.id = id;
         this.amount = amount;
         this.typeOfTransaction = typeOfTransaction;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -25,7 +25,7 @@ public class Transaction {
         return amount;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
