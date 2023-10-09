@@ -6,14 +6,11 @@ public class User {
 
     private static int nextUser;
     private int id;
+
     private String login;
 
+
     private String password;
-
-    public float getBalance() {
-        return balance;
-    }
-
     private float balance;
 
     public User(String login, String password, float balance) {
@@ -39,7 +36,24 @@ public class User {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(login, password);
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public float getBalance() {
+        return balance;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
