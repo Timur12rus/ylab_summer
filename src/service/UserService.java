@@ -138,30 +138,4 @@ public class UserService {
         UUID uuid = UUID.randomUUID();
         return uuid.toString();
     }
-
-    // создает пользователя для регистрации
-    public User createUserForRegistration() {
-        System.out.println("Регистрация пользователя");
-        System.out.println("Введите логин: ");
-        String login = scanner.next();
-
-        System.out.println("Введите пароль: ");
-        String password = scanner.next();
-
-        System.out.println("Введите баланс на счёте: ");
-        float balance = scanner.nextFloat();
-
-        return new User(login, password, balance);
-    }
-
-    public User getUserForAuthorisation() {
-        System.out.println("Авторизация пользователя");
-        System.out.println("Введите логин пользователя: ");
-        String login = scanner.next();
-
-        System.out.println("Введите пароль: ");
-        String password = scanner.next();
-
-        return new User(login, password);
-    }
 }
