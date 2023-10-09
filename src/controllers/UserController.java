@@ -1,13 +1,18 @@
 package controllers;
 
+import model.Transaction;
 import model.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserController {
 
     private Map<String, User> userMap = new HashMap();
+
+
 
     private User currentUser;
 
@@ -37,5 +42,7 @@ public class UserController {
     public Map<String, User> getUserMap() {
         return userMap;
     }
+
+
 
 }

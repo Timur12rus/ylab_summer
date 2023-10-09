@@ -1,18 +1,28 @@
 package ui;
 
 import controllers.UserController;
+import model.Transaction;
 import model.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MenuConsole {
     private Scanner scanner = new Scanner(System.in);
     private UserController userController;
 
+    private List<Transaction> transactionList;
+
+    private List<String> historyTransactionList;
+    private List<String> historyUserActions;
+
     private boolean isAuthorized;   // пользователь авторизован
 
     public MenuConsole() {
         userController = new UserController();
+        historyTransactionList = new ArrayList<>();
+        historyUserActions = new ArrayList<>();
     }
 
     public void showMenu() {
@@ -42,28 +52,48 @@ public class MenuConsole {
                     System.out.println("Введите пароль: ");
                     password = scanner.next();
                     isAuthorized = userController.authorizeUser(new User(login, password));
+                    if (isAuthorized) {
+                        historyUserActions.add("Авторизация");
+                    }
                     break;
             }
         }
         System.out.println("Текущий баланс игрока: " + userController.getCurrentUser().getBalance());
-        System.out.println("Введите идентификатор транзакции: ");
-        int transactionId = scanner.nextInt();
 
-        // TODO doTransaction()
-//        doTransaction();
-
-//        System.out.println("Выберите операцию: \n1 - Дебет/снятие средств\n2 - Кредит на игрока/пополнение средств");
-//        switch (scanner.next()) {
-//            case 1:
-//                userController.debet();
-//                break;
-//            case 2:
-//                userController.credit();
-//        }
+        doTransactions(userController.getCurrentUser());
     }
 
-    public void doTransaction(int transactionId) {
+    public void doTransactions(User user) {
+        transactionList = createTransactions();
+        for (Transaction transaction : transactionList) {
+            switch (transaction.getTypeOfTransaction()) {
+                case DEBIT:
+                    if (user.getBalance() - transaction.getAmount() >= 0) {
+                        user.setBalance(user.getBalance() - transaction.getAmount());
+                        historyTransactionList.add("Id транзакции: " + transaction.getId() + "/сумма: " + transaction.getAmount() + "/тип операции: дебет");
+                        historyUserActions.add("Снятие");
+                    } else {
+                        System.out.println("Не достаточно средств на счёте!");
+                    }
+                    break;
+                case CREDIT:
+                    user.setBalance(user.getBalance() + transaction.getAmount());
+                    historyTransactionList.add("Id транзакции: " + transaction.getId() + "/сумма: " + transaction.getAmount() + "/тип операции: кредит");
+                    historyUserActions.add("Пополнение");
+            }
+        }
+    }
 
+    public void exit() {
+        historyUserActions.add("Завершение работы");
+    }
+
+    public List<Transaction> createTransactions() {
+        transactionList = new ArrayList<>();
+        transactionList.add(new Transaction(1, 150, Transaction.TypeOfTransaction.CREDIT));
+        transactionList.add(new Transaction(2, 55, Transaction.TypeOfTransaction.DEBIT));
+        transactionList.add(new Transaction(3, 25, Transaction.TypeOfTransaction.CREDIT));
+        return transactionList;
     }
 
     // создает пользователя для регистрации

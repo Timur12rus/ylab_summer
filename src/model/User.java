@@ -53,6 +53,10 @@ public class User {
         return balance;
     }
 
+    public void setBalance(float balance) {
+        this.balance = balance;
+    }
+
     public String getPassword() {
         return password;
     }
