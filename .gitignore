@@ -11,6 +11,8 @@ out/
 .settings
 .springBeans
 .sts4-cache
+.idea
+WalletService.iml
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/

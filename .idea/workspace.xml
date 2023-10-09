@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ebd309d4-d104-4526-9348-0acbbfd57cab" name="Changes" comment="Add repository, service, model">
-      <change afterPath="$PROJECT_DIR$/src/controllers/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/Console.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/Console.java" afterDir="false" />
+    <list default="true" id="ebd309d4-d104-4526-9348-0acbbfd57cab" name="Changes" comment="Add controller, service, model">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +114,7 @@
       <option name="presentableId" value="Default" />
       <updated>1696614137636</updated>
       <workItem from="1696614137916" duration="3182000" />
-      <workItem from="1696833709616" duration="2701000" />
+      <workItem from="1696833709616" duration="3705000" />
     </task>
     <task id="LOCAL-00001" summary="Add repository, service, model">
       <created>1696617215033</created>
@@ -128,7 +123,14 @@
       <option name="project" value="LOCAL" />
       <updated>1696617215033</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add controller, service, model">
+      <created>1696837377194</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1696837377194</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,6 +138,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add repository, service, model" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add repository, service, model" />
+    <MESSAGE value="Add controller, service, model" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add controller, service, model" />
   </component>
 </project>
