@@ -81,6 +81,7 @@ public class UserService {
         }
     }
 
+    // метод для выполнения транзакций
     public void doTransactions(User user) {
         transactionList = createTransactions();
         for (Transaction transaction : transactionList) {
