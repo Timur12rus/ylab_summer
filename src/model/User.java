@@ -5,19 +5,18 @@ import java.util.Objects;
 public class User {
 
     private static int nextUser;
-    private int id;
+    private static int id;
 
     private String login;
-
 
     private String password;
     private float balance;
 
     public User(String login, String password, float balance) {
+        id++;
         this.login = login;
         this.password = password;
         this.balance = balance;
-        id = nextUser++;
     }
 
     public User(String login, String password) {
@@ -33,6 +32,13 @@ public class User {
         User user = (User) o;
         return login.equals(user.login) &&
                 password.equals(user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = login.hashCode();
+        result = 31 * result + password.hashCode();
+        return result;
     }
 
     @Override
