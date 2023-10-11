@@ -40,7 +40,4 @@ public class UserController {
     public Map<String, User> getUserMap() {
         return userMap;
     }
-
-
-
 }

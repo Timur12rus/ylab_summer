@@ -1,7 +1,8 @@
 package model;
 
 public class Transaction {
-    private String id;
+
+    private int id;
 
     public TypeOfTransaction getTypeOfTransaction() {
         return typeOfTransaction;
@@ -11,13 +12,13 @@ public class Transaction {
 
     private TypeOfTransaction typeOfTransaction;
 
-    public Transaction(String id, float amount, TypeOfTransaction typeOfTransaction) {
+    public Transaction(int id, float amount, TypeOfTransaction typeOfTransaction) {
         this.id = id;
         this.amount = amount;
         this.typeOfTransaction = typeOfTransaction;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -25,12 +26,22 @@ public class Transaction {
         return amount;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
+
 
     public enum TypeOfTransaction {
         DEBIT,
         CREDIT
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "id=" + id +
+                ", amount=" + amount +
+                ", typeOfTransaction=" + typeOfTransaction +
+                '}';
     }
 }

@@ -4,16 +4,13 @@ import controllers.UserController;
 import model.Transaction;
 import model.User;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 public class UserService {
     private Scanner scanner = new Scanner(System.in);
     private UserController userController;
 
-    private List<Transaction> transactionList;
+    private List<Transaction> transactionList = new ArrayList<>();
 
     private List<String> historyTransactionList;
     private List<String> historyUserActions;
@@ -61,14 +58,37 @@ public class UserService {
         }
         System.out.println("Текущий баланс игрока: " + userController.getCurrentUser().getBalance());
 
-        // совершаем транзакции
-        doTransactions(userController.getCurrentUser());
+        boolean isExit = false;
+        while (!isExit) {
+            printTransactions();
+            System.out.println("1 - Зарегистрировать транзакцию");
+            System.out.println("2 - Выполнить транзакцию");
+            System.out.println("3 - Выход");
+            int select = scanner.nextInt();
+
+            switch (select) {
+                case 1:
+                    registerTransactions();
+                    break;
+                case 2:
+                    DoTransaction();
+                    break;
+                case 3:
+                    System.out.println("Выход");
+                    historyUserActions.add("Завершение работы");
+                    isExit = true;
+                    break;
+                default:
+                    System.out.println("Введите пункт меню (1, 2 или 3)");
+                    break;
+            }
+        }
+
         for (String s : historyUserActions) {
             System.out.println(s);
         }
         System.out.println("Текущий баланс игрока: " + userController.getCurrentUser().getBalance());
 
-        exit();
 
         System.out.println("\nИстория операций:");     // история операций
         for (String s : historyTransactionList) {
@@ -81,62 +101,103 @@ public class UserService {
         }
     }
 
-    // метод для выполнения транзакций
-    public void doTransactions(User user) {
-        transactionList = createTransactions();
-        for (Transaction transaction : transactionList) {
-            switch (transaction.getTypeOfTransaction()) {
-                case DEBIT:
-                    if (user.getBalance() - transaction.getAmount() >= 0) {
-                        user.setBalance(user.getBalance() - transaction.getAmount());
-                        historyTransactionList.add("Id транзакции: " + transaction.getId() + "|сумма: " + transaction.getAmount() + "|тип операции: дебет|УСПЕШНО");
-                        historyUserActions.add("Снятие");
-                    } else {
-                        historyTransactionList.add("Id транзакции: " + transaction.getId() + "|сумма: " + transaction.getAmount() + "|тип операции: дебет|НЕ УСПЕШНО(НЕ ДОСТАТОЧНО СРЕДСТВ)");
-                    }
+
+    private void DoTransaction() {
+        System.out.println("Введите Id транзакции(целое число): ");
+        int idTransaction = scanner.nextInt();
+        if (!transactionList.isEmpty()) {
+            boolean isTransactionFinished = false;
+            for (Transaction transaction : transactionList) {
+                if (transaction.getId() == idTransaction) {
+                    runTransaction(userController.getCurrentUser(), transaction);
+                    isTransactionFinished = true;
                     break;
-                case CREDIT:
-                    user.setBalance(user.getBalance() + transaction.getAmount());
-                    historyTransactionList.add("Id транзакции: " + transaction.getId() + "|сумма: " + transaction.getAmount() + "|тип операции: кредит|УСПЕШНО");
-                    historyUserActions.add("Пополнение");
-                    break;
+                }
+            }
+            if (!isTransactionFinished) {
+                System.out.println("Нет транзакции с таким Id!");
+            }
+
+        } else {
+            System.out.println("Нет ни одной транзакции!");
+        }
+    }
+
+    public void runTransaction(User user, Transaction transaction) {
+        switch (transaction.getTypeOfTransaction()) {
+            case DEBIT:
+                if (user.getBalance() - transaction.getAmount() >= 0) {
+                    user.setBalance(user.getBalance() - transaction.getAmount());
+                    historyTransactionList.add("Id транзакции: " + transaction.getId() + "|сумма: " + transaction.getAmount() + "|тип операции: дебет|УСПЕШНО");
+                    historyUserActions.add("Снятие");
+                } else {
+                    historyTransactionList.add("Id транзакции: " + transaction.getId() + "|сумма: " + transaction.getAmount() + "|тип операции: дебет|НЕ УСПЕШНО(НЕ ДОСТАТОЧНО СРЕДСТВ)");
+                }
+                break;
+            case CREDIT:
+                user.setBalance(user.getBalance() + transaction.getAmount());
+                historyTransactionList.add("Id транзакции: " + transaction.getId() + "|сумма: " + transaction.getAmount() + "|тип операции: кредит|УСПЕШНО");
+                historyUserActions.add("Пополнение");
+                break;
+        }
+    }
+
+    private void registerTransactions() {
+        boolean isEndReagistrationTransactions = false;
+        while (!isEndReagistrationTransactions) {
+            printTransactions();
+            System.out.println("Регистрация транзакций");
+            System.out.println("Введите id транзакции(целое число): ");
+            int id = scanner.nextInt();
+
+            if (checkUniqueIdTransaction(id)) {       // проверка Id транзакции на уникальность
+                System.out.println("Введите сумму транзакции: ");
+                float amount = scanner.nextFloat();
+                System.out.println("Введите тип транзакции(1 - Дебет(снятие) | 2 - Кредит(пополнение");
+                int intTypeOfOperation = scanner.nextInt();
+                switch (intTypeOfOperation) {
+                    case 1:
+                        transactionList.add(new Transaction(id, amount, Transaction.TypeOfTransaction.DEBIT));
+                        break;
+                    case 2:
+                        transactionList.add(new Transaction(id, amount, Transaction.TypeOfTransaction.CREDIT));
+                        break;
+                    default:
+                        System.out.println("Вы ввели неверный тип транзакции!");
+                        break;
+                }
+                System.out.println("Повторить регистрацию транзакций? 1 - ДА | 2 - НЕТ");
+
+                switch (scanner.nextInt()) {
+                    case 1:
+                        break;
+                    case 2:
+                        isEndReagistrationTransactions = true;
+                        break;
+                }
+            } else {
+                System.out.println("Транзакция с таким Id уже существует!");
+                break;
             }
         }
     }
 
-    public void exit() {
-        historyUserActions.add("Завершение работы");
-    }
-
-    public List<Transaction> createTransactions() {
-        transactionList = new ArrayList<>();
-        Transaction transaction1 = new Transaction(generateUniqueId(), 150, Transaction.TypeOfTransaction.CREDIT);
-        if (checkUniqueIdTransaction(transaction1)) {
-            transactionList.add(transaction1);
-        }
-        Transaction transaction2 = new Transaction(generateUniqueId(), 300, Transaction.TypeOfTransaction.DEBIT);
-        if (checkUniqueIdTransaction(transaction2)) {
-            transactionList.add(transaction2);
-        }
-        Transaction transaction3 = new Transaction(generateUniqueId(), 50, Transaction.TypeOfTransaction.CREDIT);
-        if (checkUniqueIdTransaction(transaction3)) {
-            transactionList.add(transaction3);
-        }
-        return transactionList;
-    }
-
-    private boolean checkUniqueIdTransaction(Transaction newTransaction) {
+    private boolean checkUniqueIdTransaction(int id) {
         for (Transaction transaction : transactionList) {
-            if (transaction.getId().equals(newTransaction.getId())) {
-                System.out.println("Ошибка! Id транзакции не уникальный!");
+            if (id == transaction.getId()) {
                 return false;
             }
         }
         return true;
     }
 
-    private String generateUniqueId() {
-        UUID uuid = UUID.randomUUID();
-        return uuid.toString();
+    private void printTransactions() {
+        if (!transactionList.isEmpty()) {
+            System.out.println("Список транзакций: ");
+            for (Transaction transaction : transactionList) {
+                System.out.println("id=" + transaction.getId() + " | сумма: " +
+                        transaction.getAmount() + " | тип: " + transaction.getTypeOfTransaction().toString());
+            }
+        }
     }
 }
